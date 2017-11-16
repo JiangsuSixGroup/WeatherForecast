@@ -46,10 +46,12 @@ public:
 	vector<vector<string> > ReadXML(string xmladdr );
 	vector <vector<string >> m_VectorProvince;
 	vector <vector<string >> m_VectorCity;
+	//vector <string > environmentInfo;
+	vector <string > zhishuInfo;
 	int getCityNum;
 	string nowTemp;
-	void queryshowFun( );
-	//CFont font;
+	void queryshowFun();
+	CFont font;
 	
 	afx_msg void OnCbnSelchangeComboCity();
 	afx_msg void OnEnChangeEditQueryCity();

@@ -265,11 +265,15 @@ BOOL CWeatherForecastDlg::OnInitDialog()
 		}
 	}
 
+	nProvinceSelected = 9;
+	nCitySelected = 0;
+
+
 	getCityNum= 1340;
-	m_cbProvince.SetCurSel(9);
+	m_cbProvince.SetCurSel(nProvinceSelected);
 	for (int i =0 ; i<m_VectorCity.size(); i++)
 	{	
-		if (m_VectorCity[i][2] == m_VectorProvince[9][0])
+		if (m_VectorCity[i][2] == m_VectorProvince[nProvinceSelected][nCitySelected])
 		{
 			std::wstring stemp = s2ws( m_VectorCity[i][1] ); 
 			LPCWSTR result = stemp.c_str();
@@ -455,6 +459,105 @@ vector<vector<string> > CWeatherForecastDlg::ReadXML(string Response )
 	nowTemp = szX;
 	nowTemp = nowTemp +"℃";
 
+	//读取指数信息
+	zhishuInfo.clear();
+	currentNode = root->FirstChild("zhishus");
+	currentNode = root->FirstChild("zhishu");
+	while (currentNode)                                                 //currentNode节点循环  
+	{
+		TiXmlNode* tmpNode;
+		tmpNode = currentNode->FirstChild("name");
+		const char* tmpname  = tmpNode->ToElement()->GetText();
+		string name= tmpname;
+		name =UTF8ToGBK(name);
+
+		tmpNode = currentNode->FirstChild("value");
+		const char* tmpvalue  = tmpNode->ToElement()->GetText();
+		string value= tmpvalue;
+		value =UTF8ToGBK(value);
+	}
+
+	////读取environment信息
+	//environmentInfo.clear();
+	//TiXmlNode* tmpCurrentNode ;
+
+	//currentNode = root->FirstChild("environment");
+	//tmpCurrentNode = currentNode->FirstChild("aqi");	
+	//const char* aqiTemp  = tmpCurrentNode->ToElement()->GetText();
+	//string aqi= aqiTemp;
+	//aqi =UTF8ToGBK(aqi);
+	//environmentInfo.push_back(aqi );
+
+	//currentNode = root->FirstChild("environment");
+	//currentNode = currentNode->FirstChild("pm25");
+	//const char* pmTemp  = currentNode->ToElement()->GetText();
+	//string pm= pmTemp;
+	//pm =UTF8ToGBK(pm);
+	//environmentInfo.push_back(pm );
+
+	//currentNode = root->FirstChild("environment");
+	//currentNode = currentNode->FirstChild("suggest");
+	//const char* suggestTemp  = currentNode->ToElement()->GetText();
+	//string suggest= suggestTemp;
+	//suggest =UTF8ToGBK(suggest);
+	//environmentInfo.push_back(suggest );
+
+	//currentNode = root->FirstChild("environment");
+	//currentNode = currentNode->FirstChild("quality");
+	//const char* qualityTemp  = currentNode->ToElement()->GetText();
+	//string quality= qualityTemp;
+	//quality =UTF8ToGBK(quality);
+	//environmentInfo.push_back(quality );
+
+	//currentNode = root->FirstChild("environment");
+	//currentNode = currentNode->FirstChild("MajorPollutants");
+	//const char* MajorPollutantsTemp  = currentNode->ToElement()->GetText();
+	//string MajorPollutants= MajorPollutantsTemp;
+	//MajorPollutants =UTF8ToGBK(MajorPollutants);
+	//environmentInfo.push_back(MajorPollutants );
+
+	//currentNode = root->FirstChild("environment");
+	//currentNode = currentNode->FirstChild("o3");
+	//const char* o3Temp  = currentNode->ToElement()->GetText();
+	//string o3= o3Temp;
+	//o3 =UTF8ToGBK(o3);
+	//environmentInfo.push_back(o3 );
+
+	//currentNode = root->FirstChild("environment");
+	//currentNode = currentNode->FirstChild("co");
+	//const char* coTemp  = currentNode->ToElement()->GetText();
+	//string co= coTemp;
+	//co =UTF8ToGBK(co);
+	//environmentInfo.push_back(co );
+
+	//currentNode = root->FirstChild("environment");
+	//currentNode = currentNode->FirstChild("pm10");
+	//const char* pm10Temp  = currentNode->ToElement()->GetText();
+	//string pm10= pm10Temp;
+	//pm10 =UTF8ToGBK(pm10);
+	//environmentInfo.push_back(pm10 );
+
+	//currentNode = root->FirstChild("environment");
+	//currentNode = currentNode->FirstChild("so2");
+	//const char* so2Temp  = currentNode->ToElement()->GetText();
+	//string so2= so2Temp;
+	//so2 =UTF8ToGBK(so2);
+	//environmentInfo.push_back(so2 );
+
+	//currentNode = root->FirstChild("environment");
+	//currentNode = currentNode->FirstChild("no2");
+	//const char* no2Temp  = currentNode->ToElement()->GetText();
+	//string no2= no2Temp;
+	//no2 =UTF8ToGBK(no2);
+	//environmentInfo.push_back(no2 );
+
+	//currentNode = root->FirstChild("environment");
+	//currentNode = currentNode->FirstChild("time");
+	//const char* timeTemp  = currentNode->ToElement()->GetText();
+	//string time= timeTemp;
+	//time =UTF8ToGBK(time);
+	//environmentInfo.push_back(time );
+	
 	vector<vector<string> >  date_weather;
 	currentNode = root->FirstChild("forecast");
 	currentNode = currentNode->FirstChild("weather");
@@ -659,12 +762,28 @@ void CWeatherForecastDlg::queryshowFun( )
 	vector<vector<string> > date_weather;
 	date_weather = ReadXML(Response );
 	
+	//当前位置
+	SetDlgItemText(IDC_STATIC_ADDRESS,CString( m_VectorCity[getCityNum][1].c_str()));
+	////当天环境
+	//SetDlgItemText(IDC_STATIC_CURRENT_ENV1,CString( environmentInfo[0].c_str()));
+	//SetDlgItemText(IDC_STATIC_CURRENT_ENV2,CString( environmentInfo[1].c_str()));
+	//SetDlgItemText(IDC_STATIC_CURRENT_ENV3,CString( environmentInfo[2].c_str()));
+	//SetDlgItemText(IDC_STATIC_CURRENT_ENV4,CString( environmentInfo[3].c_str()));
+	//SetDlgItemText(IDC_STATIC_CURRENT_ENV5,CString( environmentInfo[4].c_str()));
+	//SetDlgItemText(IDC_STATIC_CURRENT_ENV6,CString( environmentInfo[5].c_str()));
+
+
 	//当前天气
+	font.CreatePointFont(300,L"微软雅黑");
+	CWnd* pWnd = GetDlgItem(IDC_STATIC_NOWTEMP);
+	pWnd->SetFont(&font);
+
 	SetDlgItemText(IDC_STATIC_NOWTEMP,CString( nowTemp.c_str()));
 	//SetFont(&font);
 
 	SetDlgItemText(IDC_STATIC_CURRENT_DATE,CString((date_weather[0][0]).c_str()));
 	SetDlgItemText(IDC_STATIC_CURRENT_WEATHERTYPE,CString((date_weather[0][1]).c_str()));
+	SetDlgItemText(IDC_STATIC_CURRENT_WEATHERTYPE2,CString((date_weather[0][1]).c_str()));
 	SetDlgItemText(IDC_STATIC_CURRENT_HIGHTEMP,CString((date_weather[0][2]).c_str()));
 	SetDlgItemText(IDC_STATIC_CURRENT_LOWTEMP,CString((date_weather[0][3]).c_str()));
 
@@ -695,6 +814,12 @@ void CWeatherForecastDlg::queryshowFun( )
 	CString cstr(str_srcImagePath.c_str());
 	CDC* pDC = GetDlgItem( IDC_STATIC_CURRENT_WEATHER )->GetDC();
 	ShowJpgGif(pDC,cstr,0,0);
+	ReleaseDC( pDC );
+
+	str_srcImagePath = str_srcImageFolderPath + date_weather[0][1]+".jpg";
+	CString cstr0(str_srcImagePath.c_str());
+	pDC = GetDlgItem( IDC_STATIC_CURRENT_WEATHER2 )->GetDC();
+	ShowJpgGif(pDC,cstr0,0,0);
 	ReleaseDC( pDC );
 
 	//1天
