@@ -462,7 +462,7 @@ vector<vector<string> > CWeatherForecastDlg::ReadXML(string Response )
 	//读取指数信息
 	zhishuInfo.clear();
 	currentNode = root->FirstChild("zhishus");
-	currentNode = root->FirstChild("zhishu");
+	currentNode = currentNode->FirstChild("zhishu");
 	while (currentNode)                                                 //currentNode节点循环  
 	{
 		TiXmlNode* tmpNode;
@@ -475,6 +475,11 @@ vector<vector<string> > CWeatherForecastDlg::ReadXML(string Response )
 		const char* tmpvalue  = tmpNode->ToElement()->GetText();
 		string value= tmpvalue;
 		value =UTF8ToGBK(value);
+		vector<string> tmp;
+		tmp.push_back(name);
+		tmp.push_back(value);
+		zhishuInfo.push_back(tmp);
+		currentNode=currentNode->NextSibling("zhishu");
 	}
 
 	////读取environment信息
@@ -764,6 +769,29 @@ void CWeatherForecastDlg::queryshowFun( )
 	
 	//当前位置
 	SetDlgItemText(IDC_STATIC_ADDRESS,CString( m_VectorCity[getCityNum][1].c_str()));
+	
+	//当天指数
+	SetDlgItemText(IDC_STATIC_ZHISHU_NAME0,CString( zhishuInfo[0][0].c_str()));
+	SetDlgItemText(IDC_STATIC_ZHISHU_NAME1,CString(  zhishuInfo[1][0].c_str()));
+	SetDlgItemText(IDC_STATIC_ZHISHU_NAME2,CString( zhishuInfo[2][0].c_str()));
+	SetDlgItemText(IDC_STATIC_ZHISHU_NAME3,CString(  zhishuInfo[3][0].c_str()));
+	SetDlgItemText(IDC_STATIC_ZHISHU_NAME4,CString(  zhishuInfo[4][1].c_str()));
+	SetDlgItemText(IDC_STATIC_ZHISHU_NAME5,CString(  zhishuInfo[5][1].c_str()));
+	SetDlgItemText(IDC_STATIC_ZHISHU_NAME6,CString( zhishuInfo[6][0].c_str()));
+	SetDlgItemText(IDC_STATIC_ZHISHU_NAME7,CString(  zhishuInfo[7][0].c_str()));
+
+	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE0,CString(  zhishuInfo[0][1].c_str()));
+	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE1,CString(  zhishuInfo[1][1].c_str()));
+	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE2,CString( zhishuInfo[2][0].c_str()));
+	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE3,CString(  zhishuInfo[3][0].c_str()));
+	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE4,CString(  zhishuInfo[4][1].c_str()));
+	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE5,CString(  zhishuInfo[5][1].c_str()));
+	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE6,CString( zhishuInfo[6][0].c_str()));
+	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE7,CString(  zhishuInfo[7][0].c_str()));
+
+
+
+	
 	////当天环境
 	//SetDlgItemText(IDC_STATIC_CURRENT_ENV1,CString( environmentInfo[0].c_str()));
 	//SetDlgItemText(IDC_STATIC_CURRENT_ENV2,CString( environmentInfo[1].c_str()));
@@ -771,6 +799,7 @@ void CWeatherForecastDlg::queryshowFun( )
 	//SetDlgItemText(IDC_STATIC_CURRENT_ENV4,CString( environmentInfo[3].c_str()));
 	//SetDlgItemText(IDC_STATIC_CURRENT_ENV5,CString( environmentInfo[4].c_str()));
 	//SetDlgItemText(IDC_STATIC_CURRENT_ENV6,CString( environmentInfo[5].c_str()));
+
 
 
 	//当前天气

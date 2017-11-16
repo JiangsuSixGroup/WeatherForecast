@@ -47,7 +47,7 @@ public:
 	vector <vector<string >> m_VectorProvince;
 	vector <vector<string >> m_VectorCity;
 	//vector <string > environmentInfo;
-	vector <string > zhishuInfo;
+	vector <vector <string > > zhishuInfo;
 	int getCityNum;
 	string nowTemp;
 	void queryshowFun();
