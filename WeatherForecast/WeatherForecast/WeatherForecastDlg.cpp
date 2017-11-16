@@ -775,19 +775,19 @@ void CWeatherForecastDlg::queryshowFun( )
 	SetDlgItemText(IDC_STATIC_ZHISHU_NAME1,CString(  zhishuInfo[1][0].c_str()));
 	SetDlgItemText(IDC_STATIC_ZHISHU_NAME2,CString( zhishuInfo[2][0].c_str()));
 	SetDlgItemText(IDC_STATIC_ZHISHU_NAME3,CString(  zhishuInfo[3][0].c_str()));
-	SetDlgItemText(IDC_STATIC_ZHISHU_NAME4,CString(  zhishuInfo[4][1].c_str()));
-	SetDlgItemText(IDC_STATIC_ZHISHU_NAME5,CString(  zhishuInfo[5][1].c_str()));
+	SetDlgItemText(IDC_STATIC_ZHISHU_NAME4,CString(  zhishuInfo[4][0].c_str()));
+	SetDlgItemText(IDC_STATIC_ZHISHU_NAME5,CString(  zhishuInfo[5][0].c_str()));
 	SetDlgItemText(IDC_STATIC_ZHISHU_NAME6,CString( zhishuInfo[6][0].c_str()));
 	SetDlgItemText(IDC_STATIC_ZHISHU_NAME7,CString(  zhishuInfo[7][0].c_str()));
 
 	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE0,CString(  zhishuInfo[0][1].c_str()));
 	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE1,CString(  zhishuInfo[1][1].c_str()));
-	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE2,CString( zhishuInfo[2][0].c_str()));
-	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE3,CString(  zhishuInfo[3][0].c_str()));
+	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE2,CString( zhishuInfo[2][1].c_str()));
+	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE3,CString(  zhishuInfo[3][1].c_str()));
 	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE4,CString(  zhishuInfo[4][1].c_str()));
 	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE5,CString(  zhishuInfo[5][1].c_str()));
-	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE6,CString( zhishuInfo[6][0].c_str()));
-	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE7,CString(  zhishuInfo[7][0].c_str()));
+	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE6,CString( zhishuInfo[6][1].c_str()));
+	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE7,CString(  zhishuInfo[7][1].c_str()));
 
 
 
