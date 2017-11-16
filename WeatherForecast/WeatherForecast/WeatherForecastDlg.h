@@ -38,6 +38,7 @@ public:
 	CComboBox m_cbProvince;
 	CComboBox m_cbCity;
 	afx_msg void OnCbnSelchangeComboProvince();
+	BOOL ShowJpgGif(CDC* pDC,CString strPath, int x, int y);
 
 	UINT nProvinceSelected;
 	UINT nCitySelected;
@@ -53,4 +54,9 @@ public:
 	afx_msg void OnCbnSelchangeComboCity();
 	afx_msg void OnEnChangeEditQueryCity();
 	afx_msg void OnBnClickedCancel();
+	afx_msg void OnStnClickedStaticWeather1();
+	afx_msg void OnStnClickedStaticWeather2();
+	afx_msg void OnStnClickedStaticCurrentWeather();
+	afx_msg void OnStnClickedStaticWeather3();
+	afx_msg void OnStnClickedStaticWeather4();
 };

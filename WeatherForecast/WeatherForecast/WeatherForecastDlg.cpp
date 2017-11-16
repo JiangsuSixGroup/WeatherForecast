@@ -1,21 +1,15 @@
 
 // WeatherForecastDlg.cpp : implementation file
 //
-
 #include "stdafx.h"
 #include "WeatherForecast.h"
 #include "WeatherForecastDlg.h"
 #include "afxdialogex.h"
-#include <opencv2/opencv.hpp>
-#include "CvvImage/CvvImage.h"
 #include "tinyxml/tinyxml.h"
 #include "tinyxml/tinystr.h"
 #include "CHttpClient.h"
-
-//#include "string"
 #include "fstream"
-
-using namespace cv;
+#include <iostream>
 
 using namespace std;
 
@@ -99,6 +93,11 @@ BEGIN_MESSAGE_MAP(CWeatherForecastDlg, CDialogEx)
 	ON_CBN_SELCHANGE(IDC_COMBO_PROVINCE, &CWeatherForecastDlg::OnCbnSelchangeComboProvince)
 	ON_CBN_SELCHANGE(IDC_COMBO_CITY, &CWeatherForecastDlg::OnCbnSelchangeComboCity)
 	ON_BN_CLICKED(IDCANCEL, &CWeatherForecastDlg::OnBnClickedCancel)
+	ON_STN_CLICKED(IDC_STATIC_WEATHER1, &CWeatherForecastDlg::OnStnClickedStaticWeather1)
+	ON_STN_CLICKED(IDC_STATIC_WEATHER2, &CWeatherForecastDlg::OnStnClickedStaticWeather2)
+	ON_STN_CLICKED(IDC_STATIC_CURRENT_WEATHER, &CWeatherForecastDlg::OnStnClickedStaticCurrentWeather)
+	ON_STN_CLICKED(IDC_STATIC_WEATHER3, &CWeatherForecastDlg::OnStnClickedStaticWeather3)
+	ON_STN_CLICKED(IDC_STATIC_WEATHER4, &CWeatherForecastDlg::OnStnClickedStaticWeather4)
 END_MESSAGE_MAP()
 
 //字符串分割函数
@@ -278,8 +277,7 @@ BOOL CWeatherForecastDlg::OnInitDialog()
 		}
 	}
 	m_cbCity.SetCurSel(0);
-		
-	queryshowFun( );
+	
 	flag =1;
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
@@ -337,6 +335,8 @@ void CWeatherForecastDlg::OnPaint()
 	{
 		CDialogEx::OnPaint();
 	}
+
+	queryshowFun( );
 }
 
 // The system calls this function to obtain the cursor to display while the user drags
@@ -385,7 +385,6 @@ void GBKToUTF8(char* &szOut)
  delete[] szUtf8;
  delete[] wszUtf8;
 }
-
 string UTF8ToGBK(const std::string& strUTF8)  
 {  
 	if (&strUTF8 == NULL)
@@ -430,6 +429,7 @@ string GBKToUTF8(const std::string& strGBK)
 	str2 = NULL;  
 	return strOutUTF8;  
 }  
+
 int write_string_to_file_append(const std::string & file_string, const std::string str )  
 {  
     std::ofstream   OsWrite(file_string,std::ofstream::app);  
@@ -493,231 +493,98 @@ vector<vector<string> > CWeatherForecastDlg::ReadXML(string Response )
 
 	}  
 
-
-	///*vector<string> p = ["13日星期一","晴","高温 12℃","低温 0℃"];*/
-	//vector<string> p;
-	//p.push_back("13日星期一");
-	//p.push_back("晴");
-	//p.push_back("高温 12℃");
-	//p.push_back("低温 0℃");
-	//date_weather.push_back(p);
-	//p.clear();
-	//p.push_back("14日星期二");
-	//p.push_back("晴");
-	//p.push_back("高温 12℃");
-	//p.push_back("低温 0℃");
-	//date_weather.push_back(p);
-	//p.clear();
-	//p.push_back("15日星期三");
-	//p.push_back("多云");
-	//p.push_back("高温 12℃");
-	//p.push_back("低温 0℃");
-	//date_weather.push_back(p);
-	//p.clear();
-	//p.push_back("16日星期四");
-	//p.push_back("晴");
-	//p.push_back("高温 12℃");
-	//p.push_back("低温 0℃");
-	//date_weather.push_back(p);
-	//p.clear();
-	//p.push_back("17日星期五");
-	//p.push_back("阴");
-	//p.push_back("高温 12℃");
-	//p.push_back("低温 0℃");
-	//date_weather.push_back(p);
-	//p.clear();
-	//p.push_back("18日星期六");
-	//p.push_back("晴");
-	//p.push_back("高温 12℃");
-	//p.push_back("低温 0℃");
-	//date_weather.push_back(p);
-	//p.clear();
-	//p.push_back("19日星期日");
-	//p.push_back("晴");
-	//p.push_back("高温 12℃");
-	//p.push_back("低温 0℃");
-	//date_weather.push_back(p);
-
-
 	return date_weather;
 }
 
 void CWeatherForecastDlg::OnBnClickedButtonQuery()
 {
-	// TODO: Add your control notification handler code here
-
-	//1、首先通过HTTP获取最新的天气预报信息 2、保存成xml格式 3、读取xml  4、展示xml
-	 //获得城市名称
-    //CEdit* pBoxOne;
-    //pBoxOne = (CEdit*) GetDlgItem(IDC_EDIT_QUERY_CITY);
-    //CString str;
-    //pBoxOne-> GetWindowText(str);
-
-	std::string URL = "http://wthrcdn.etouch.cn/WeatherApi?citykey=";
-	CHttpClient httpClient;
-	std::string Response;
-
-	
-	//char s[12];             //设定12位对于存储32位int值足够  
- //   itoa(getCityNum,s,10);            //itoa函数亦可以实现，但是属于C中函数，在C++中推荐用流的方法  
- //   string string_temp=s;  
-
-	std::string urls=URL+m_VectorCity[getCityNum][0];
-	httpClient.Gets(urls,Response );
-	std::cout<<Response<<std::endl;
-	//ofstream finalNameListOut("tmp.xml",ios::out);　　//写操作
-	//finalNameListOut<<Response;
-
-	//write_string_to_file_append( "tmp.xml",Response );  
-
-	vector<vector<string> > date_weather;
-	date_weather = ReadXML(Response );
-	
-	//当前天气
-	SetDlgItemText(IDC_STATIC_NOWTEMP,CString( nowTemp.c_str()));
-	//SetFont(&font);
-
-	SetDlgItemText(IDC_STATIC_CURRENT_DATE,CString((date_weather[0][0]).c_str()));
-	SetDlgItemText(IDC_STATIC_CURRENT_WEATHERTYPE,CString((date_weather[0][1]).c_str()));
-	SetDlgItemText(IDC_STATIC_CURRENT_HIGHTEMP,CString((date_weather[0][2]).c_str()));
-	SetDlgItemText(IDC_STATIC_CURRENT_LOWTEMP,CString((date_weather[0][3]).c_str()));
-
-	SetDlgItemText(IDC_STATIC_DATE1,CString((date_weather[1][0]).c_str()));
-	SetDlgItemText(IDC_STATIC_WEATHERTYPE1,CString((date_weather[1][1]).c_str()));
-	SetDlgItemText(IDC_STATIC_HIGHTEMP1,CString((date_weather[1][2]).c_str()));
-	SetDlgItemText(IDC_STATIC_LOWTEMP1,CString((date_weather[1][3]).c_str()));
-
-	SetDlgItemText(IDC_STATIC_DATE2,CString((date_weather[2][0]).c_str()));
-	SetDlgItemText(IDC_STATIC_WEATHERTYPE2,CString((date_weather[2][1]).c_str()));
-	SetDlgItemText(IDC_STATIC_HIGHTEMP2,CString((date_weather[2][2]).c_str()));
-	SetDlgItemText(IDC_STATIC_LOWTEMP2,CString((date_weather[2][3]).c_str()));
-
-	SetDlgItemText(IDC_STATIC_DATE3,CString((date_weather[3][0]).c_str()));
-	SetDlgItemText(IDC_STATIC_WEATHERTYPE3,CString((date_weather[3][1]).c_str()));
-	SetDlgItemText(IDC_STATIC_HIGHTEMP3,CString((date_weather[3][2]).c_str()));
-	SetDlgItemText(IDC_STATIC_LOWTEMP3,CString((date_weather[3][3]).c_str()));
-
-	SetDlgItemText(IDC_STATIC_DATE4,CString((date_weather[4][0]).c_str()));
-	SetDlgItemText(IDC_STATIC_WEATHERTYPE4,CString((date_weather[4][1]).c_str()));
-	SetDlgItemText(IDC_STATIC_HIGHTEMP4,CString((date_weather[4][2]).c_str()));
-	SetDlgItemText(IDC_STATIC_LOWTEMP4,CString((date_weather[4][3]).c_str()));
-
-	//SetDlgItemText(IDC_STATIC_DATE5,CString((date_weather[5][0]).c_str()));
-	//SetDlgItemText(IDC_STATIC_WEATHERTYPE5,CString((date_weather[5][1]).c_str()));
-	//SetDlgItemText(IDC_STATIC_HIGHTEMP5,CString((date_weather[5][2]).c_str()));
-	//SetDlgItemText(IDC_STATIC_LOWTEMP5,CString((date_weather[5][3]).c_str()));
-
-	//SetDlgItemText(IDC_STATIC_DATE6,CString((date_weather[6][0]).c_str()));
-	//SetDlgItemText(IDC_STATIC_WEATHERTYPE6,CString((date_weather[6][1]).c_str()));
-	//SetDlgItemText(IDC_STATIC_HIGHTEMP6,CString((date_weather[6][2]).c_str()));
-	//SetDlgItemText(IDC_STATIC_LOWTEMP6,CString((date_weather[6][3]).c_str()));
-
-
-	//画天气图
-	//string str_srcImageFolderPath = "D:\\Microsoft Visual Studio 2010\\Project\\WeatherForecast\\Debug\\pic\\";
-	string str_srcImageFolderPath = "pic\\";
-
-	string str_srcImagePath = str_srcImageFolderPath + date_weather[0][1]+".jpg";
-	Mat m_showFrame = imread(str_srcImagePath, CV_LOAD_IMAGE_UNCHANGED );	
-	// m_showFrame = imread(strPathName.GetBuffer(0), CV_LOAD_IMAGE_UNCHANGED );
-	Mat m_SrcMat=m_showFrame.clone();
-	IplImage pImage = m_showFrame;
-	CDC *pDC = GetDlgItem( IDC_STATIC_CURRENT_WEATHER )->GetDC();//根据ID获得窗口指针再获取与该窗口关联的上下文指针
-	HDC hdc = pDC->GetSafeHdc();                      // 获取设备上下文句柄
-	CRect rect;
-	// 矩形类
-	GetDlgItem( IDC_STATIC_CURRENT_WEATHER )->GetClientRect( &rect ); 
-	CvvImage cimg;
-	cimg.CopyOf( &pImage, pImage.nChannels );
-	cimg.DrawToHDC( hdc, &rect );
-	ReleaseDC( pDC );
-
-	//1天
-	str_srcImagePath = str_srcImageFolderPath + date_weather[1][1]+".jpg";
-	m_showFrame = imread(str_srcImagePath, CV_LOAD_IMAGE_UNCHANGED );	
-	// m_showFrame = imread(strPathName.GetBuffer(0), CV_LOAD_IMAGE_UNCHANGED );
-	m_SrcMat=m_showFrame.clone();
-	pImage = m_showFrame;
-	pDC = GetDlgItem( IDC_STATIC_WEATHER1 )->GetDC();//根据ID获得窗口指针再获取与该窗口关联的上下文指针
-	hdc = pDC->GetSafeHdc();                      // 获取设备上下文句柄
-	// 矩形类
-	GetDlgItem( IDC_STATIC_WEATHER1 )->GetClientRect( &rect ); 
-	cimg.CopyOf( &pImage, pImage.nChannels );
-	cimg.DrawToHDC( hdc, &rect );
-	ReleaseDC( pDC );
-
-	//2天
-	str_srcImagePath = str_srcImageFolderPath + date_weather[2][1]+".jpg";
-	m_showFrame = imread(str_srcImagePath, CV_LOAD_IMAGE_UNCHANGED );	
-	// m_showFrame = imread(strPathName.GetBuffer(0), CV_LOAD_IMAGE_UNCHANGED );
-	m_SrcMat=m_showFrame.clone();
-	pImage = m_showFrame;
-	pDC = GetDlgItem( IDC_STATIC_WEATHER2 )->GetDC();//根据ID获得窗口指针再获取与该窗口关联的上下文指针
-	hdc = pDC->GetSafeHdc();                      // 获取设备上下文句柄
-	// 矩形类
-	GetDlgItem( IDC_STATIC_WEATHER2 )->GetClientRect( &rect ); 
-	cimg.CopyOf( &pImage, pImage.nChannels );
-	cimg.DrawToHDC( hdc, &rect );
-	ReleaseDC( pDC );
-
-	//3天
-	str_srcImagePath = str_srcImageFolderPath + date_weather[3][1]+".jpg";
-	m_showFrame = imread(str_srcImagePath, CV_LOAD_IMAGE_UNCHANGED );	
-	// m_showFrame = imread(strPathName.GetBuffer(0), CV_LOAD_IMAGE_UNCHANGED );
-	m_SrcMat=m_showFrame.clone();
-	pImage = m_showFrame;
-	pDC = GetDlgItem( IDC_STATIC_WEATHER3 )->GetDC();//根据ID获得窗口指针再获取与该窗口关联的上下文指针
-	hdc = pDC->GetSafeHdc();                      // 获取设备上下文句柄
-	// 矩形类
-	GetDlgItem( IDC_STATIC_WEATHER3 )->GetClientRect( &rect ); 
-	cimg.CopyOf( &pImage, pImage.nChannels );
-	cimg.DrawToHDC( hdc, &rect );
-	ReleaseDC( pDC );
-
-	//4天
-	str_srcImagePath = str_srcImageFolderPath + date_weather[4][1]+".jpg";
-	m_showFrame = imread(str_srcImagePath, CV_LOAD_IMAGE_UNCHANGED );	
-	// m_showFrame = imread(strPathName.GetBuffer(0), CV_LOAD_IMAGE_UNCHANGED );
-	m_SrcMat=m_showFrame.clone();
-	pImage = m_showFrame;
-	pDC = GetDlgItem( IDC_STATIC_WEATHER4 )->GetDC();//根据ID获得窗口指针再获取与该窗口关联的上下文指针
-	hdc = pDC->GetSafeHdc();                      // 获取设备上下文句柄
-	// 矩形类
-	GetDlgItem( IDC_STATIC_WEATHER4 )->GetClientRect( &rect ); 
-	cimg.CopyOf( &pImage, pImage.nChannels );
-	cimg.DrawToHDC( hdc, &rect );
-	ReleaseDC( pDC );
-
-	////5天
-	//str_srcImagePath = str_srcImageFolderPath + date_weather[5][1]+".jpg";
-	//m_showFrame = imread(str_srcImagePath, CV_LOAD_IMAGE_UNCHANGED );	
-	//// m_showFrame = imread(strPathName.GetBuffer(0), CV_LOAD_IMAGE_UNCHANGED );
-	//m_SrcMat=m_showFrame.clone();
-	//pImage = m_showFrame;
-	//pDC = GetDlgItem( IDC_STATIC_WEATHER5 )->GetDC();//根据ID获得窗口指针再获取与该窗口关联的上下文指针
-	//hdc = pDC->GetSafeHdc();                      // 获取设备上下文句柄
-	//// 矩形类
-	//GetDlgItem( IDC_STATIC_WEATHER5 )->GetClientRect( &rect ); 
-	//cimg.CopyOf( &pImage, pImage.nChannels );
-	//cimg.DrawToHDC( hdc, &rect );
-	//ReleaseDC( pDC );
-
-	////6天
-	//str_srcImagePath = str_srcImageFolderPath + date_weather[6][1]+".jpg";
-	//m_showFrame = imread(str_srcImagePath, CV_LOAD_IMAGE_UNCHANGED );	
-	//// m_showFrame = imread(strPathName.GetBuffer(0), CV_LOAD_IMAGE_UNCHANGED );
-	//m_SrcMat=m_showFrame.clone();
-	//pImage = m_showFrame;
-	//pDC = GetDlgItem( IDC_STATIC_WEATHER6 )->GetDC();//根据ID获得窗口指针再获取与该窗口关联的上下文指针
-	//hdc = pDC->GetSafeHdc();                      // 获取设备上下文句柄
-	//// 矩形类
-	//GetDlgItem( IDC_STATIC_WEATHER6 )->GetClientRect( &rect ); 
-	//cimg.CopyOf( &pImage, pImage.nChannels );
-	//cimg.DrawToHDC( hdc, &rect );
-	//ReleaseDC( pDC );
-
+	queryshowFun( );
 }
 
+//************************************
+// 方法说明:    显示JPG和GIF、BMP图片
+// 参数说明:    CDC * pDC           设备环境对象
+// 参数说明:    CString strPath     要显示的图片路径 
+// 参数说明:    int x               要显示的X位置
+// 参数说明:    int y               要显示的Y位置
+// 返回值:      BOOL                成功返回TRUE,否则返回FALSE
+//************************************
+BOOL CWeatherForecastDlg::ShowJpgGif(CDC* pDC,CString strPath, int x, int y)
+
+{
+    CFileStatus fstatus;  
+    CFile file;  
+    ULONGLONG cb;  
+
+    // 打开文件并检测文件的有效性
+     if (!file.Open(strPath,CFile::modeRead))
+     {
+         return FALSE;
+     }
+     if (!file.GetStatus(strPath,fstatus))
+     {
+         return FALSE;
+     }
+     if ((cb =fstatus.m_size)<=0)
+     {
+         return FALSE;
+     }
+
+     // 根据文件大小分配内存空间,记得释放内存
+     HGLOBAL hGlobal = GlobalAlloc(GMEM_MOVEABLE, (unsigned int)cb);  
+      if (hGlobal== NULL) 
+      {
+          return FALSE;
+      }
+
+      // 锁定刚才分配的内存空间
+      LPVOID pvData = NULL;  
+      pvData = GlobalLock(hGlobal);
+      if (pvData == NULL)  
+      {  
+            GlobalFree(hGlobal);  // 记得释放内存
+            return FALSE;
+      } 
+
+      // 将文件放到流中
+      IStream *pStm;  
+      file.Read(pvData,(unsigned int)cb);  
+      GlobalUnlock(hGlobal);  
+      CreateStreamOnHGlobal(hGlobal, TRUE, &pStm);  
+ 
+    // 从流中加载图片
+    // 显示JPEG和GIF格式的图片，GIF只能显示一帧，还不能显示动画，
+    // 要显示动画GIF请使用ACTIVE控件。
+    IPicture *pPic; 
+    if(OleLoadPicture(pStm,(LONG)fstatus.m_size,TRUE,IID_IPicture,(LPVOID*)&pPic)!=S_OK) 
+    { 
+        GlobalFree(hGlobal);  // 记得释放内存
+        return FALSE;
+    }
+
+    //获取图像宽和高,注意这里的宽和高不是图像的分辨率
+    OLE_XSIZE_HIMETRIC hmWidth;  
+    OLE_YSIZE_HIMETRIC hmHeight;  
+    pPic->get_Width(&hmWidth);  
+    pPic->get_Height(&hmHeight);  
+
+    //use render function display image
+    RECT rtWnd;
+    pDC->GetWindow()->GetWindowRect(&rtWnd);
+    int iWndWidth=rtWnd.right-rtWnd.left;
+    int iWndHeight=rtWnd.bottom-rtWnd.top;
+    
+    if(FAILED(pPic->Render(*pDC,x,y,iWndWidth,iWndHeight,0,hmHeight,hmWidth,-hmHeight,NULL)))  
+    {
+        pPic->Release();
+        GlobalFree(hGlobal);  // 记得释放内存
+        return false;
+    }
+
+    pPic->Release(); 
+    GlobalFree(hGlobal);  // 记得释放内存
+    return true;
+}
 
 void CWeatherForecastDlg::OnCbnSelchangeComboProvince()
 {
@@ -787,7 +654,6 @@ void CWeatherForecastDlg::queryshowFun( )
 	std::string urls=URL+m_VectorCity[getCityNum][0];
 	
 	httpClient.Gets(urls,Response );
-	//std::cout<<Response<<std::endl;
 
 
 	vector<vector<string> > date_weather;
@@ -823,80 +689,68 @@ void CWeatherForecastDlg::queryshowFun( )
 	SetDlgItemText(IDC_STATIC_LOWTEMP4,CString((date_weather[4][3]).c_str()));
 
 	//画天气图
-	//string str_srcImageFolderPath = "D:\\Microsoft Visual Studio 2010\\Project\\WeatherForecast\\Debug\\pic\\";
 	string str_srcImageFolderPath = ".\\pic\\";
 
 	string str_srcImagePath = str_srcImageFolderPath + date_weather[0][1]+".jpg";
-	Mat m_showFrame = imread(str_srcImagePath, CV_LOAD_IMAGE_UNCHANGED );	
-	// m_showFrame = imread(strPathName.GetBuffer(0), CV_LOAD_IMAGE_UNCHANGED );
-	Mat m_SrcMat=m_showFrame.clone();
-	IplImage pImage = m_showFrame;
-	CDC *pDC = GetDlgItem( IDC_STATIC_CURRENT_WEATHER )->GetDC();//根据ID获得窗口指针再获取与该窗口关联的上下文指针
-	HDC hdc = pDC->GetSafeHdc();                      // 获取设备上下文句柄
-	CRect rect;
-	// 矩形类
-	GetDlgItem( IDC_STATIC_CURRENT_WEATHER )->GetClientRect( &rect ); 
-	CvvImage cimg;
-	cimg.CopyOf( &pImage, pImage.nChannels );
-	cimg.DrawToHDC( hdc, &rect );
+	CString cstr(str_srcImagePath.c_str());
+	CDC* pDC = GetDlgItem( IDC_STATIC_CURRENT_WEATHER )->GetDC();
+	ShowJpgGif(pDC,cstr,0,0);
 	ReleaseDC( pDC );
 
 	//1天
 	str_srcImagePath = str_srcImageFolderPath + date_weather[1][1]+".jpg";
-	m_showFrame = imread(str_srcImagePath, CV_LOAD_IMAGE_UNCHANGED );	
-	// m_showFrame = imread(strPathName.GetBuffer(0), CV_LOAD_IMAGE_UNCHANGED );
-	m_SrcMat=m_showFrame.clone();
-	pImage = m_showFrame;
+	CString cstr1(str_srcImagePath.c_str());
 	pDC = GetDlgItem( IDC_STATIC_WEATHER1 )->GetDC();//根据ID获得窗口指针再获取与该窗口关联的上下文指针
-	hdc = pDC->GetSafeHdc();                      // 获取设备上下文句柄
-	// 矩形类
-	GetDlgItem( IDC_STATIC_WEATHER1 )->GetClientRect( &rect ); 
-	cimg.CopyOf( &pImage, pImage.nChannels );
-	cimg.DrawToHDC( hdc, &rect );
+	ShowJpgGif(pDC,cstr1,0,0);
 	ReleaseDC( pDC );
-	Invalidate();
 
 	//2天
 	str_srcImagePath = str_srcImageFolderPath + date_weather[2][1]+".jpg";
-	m_showFrame = imread(str_srcImagePath, CV_LOAD_IMAGE_UNCHANGED );	
-	// m_showFrame = imread(strPathName.GetBuffer(0), CV_LOAD_IMAGE_UNCHANGED );
-	m_SrcMat=m_showFrame.clone();
-	pImage = m_showFrame;
+	CString cstr2(str_srcImagePath.c_str());
 	pDC = GetDlgItem( IDC_STATIC_WEATHER2 )->GetDC();//根据ID获得窗口指针再获取与该窗口关联的上下文指针
-	hdc = pDC->GetSafeHdc();                      // 获取设备上下文句柄
-	// 矩形类
-	GetDlgItem( IDC_STATIC_WEATHER2 )->GetClientRect( &rect ); 
-	cimg.CopyOf( &pImage, pImage.nChannels );
-	cimg.DrawToHDC( hdc, &rect );
+	ShowJpgGif(pDC,cstr2,0,0);
 	ReleaseDC( pDC );
 
 	//3天
 	str_srcImagePath = str_srcImageFolderPath + date_weather[3][1]+".jpg";
-	m_showFrame = imread(str_srcImagePath, CV_LOAD_IMAGE_UNCHANGED );	
-	// m_showFrame = imread(strPathName.GetBuffer(0), CV_LOAD_IMAGE_UNCHANGED );
-	m_SrcMat=m_showFrame.clone();
-	pImage = m_showFrame;
+	CString cstr3(str_srcImagePath.c_str());
 	pDC = GetDlgItem( IDC_STATIC_WEATHER3 )->GetDC();//根据ID获得窗口指针再获取与该窗口关联的上下文指针
-	hdc = pDC->GetSafeHdc();                      // 获取设备上下文句柄
-	// 矩形类
-	GetDlgItem( IDC_STATIC_WEATHER3 )->GetClientRect( &rect ); 
-	cimg.CopyOf( &pImage, pImage.nChannels );
-	cimg.DrawToHDC( hdc, &rect );
+	ShowJpgGif(pDC,cstr3,0,0);
 	ReleaseDC( pDC );
 
 	//4天
 	str_srcImagePath = str_srcImageFolderPath + date_weather[4][1]+".jpg";
-	m_showFrame = imread(str_srcImagePath, CV_LOAD_IMAGE_UNCHANGED );	
-	// m_showFrame = imread(strPathName.GetBuffer(0), CV_LOAD_IMAGE_UNCHANGED );
-	m_SrcMat=m_showFrame.clone();
-	pImage = m_showFrame;
+	CString cstr4(str_srcImagePath.c_str());
 	pDC = GetDlgItem( IDC_STATIC_WEATHER4 )->GetDC();//根据ID获得窗口指针再获取与该窗口关联的上下文指针
-	hdc = pDC->GetSafeHdc();                      // 获取设备上下文句柄
-	// 矩形类
-	GetDlgItem( IDC_STATIC_WEATHER4 )->GetClientRect( &rect ); 
-	cimg.CopyOf( &pImage, pImage.nChannels );
-	cimg.DrawToHDC( hdc, &rect );
+	ShowJpgGif(pDC,cstr4,0,0);
 	ReleaseDC( pDC );
+}
 
-	Invalidate();
+void CWeatherForecastDlg::OnStnClickedStaticWeather1()
+{
+	// TODO: 在此添加控件通知处理程序代码
+}
+
+
+void CWeatherForecastDlg::OnStnClickedStaticWeather2()
+{
+	// TODO: 在此添加控件通知处理程序代码
+}
+
+
+void CWeatherForecastDlg::OnStnClickedStaticCurrentWeather()
+{
+	// TODO: 在此添加控件通知处理程序代码
+}
+
+
+void CWeatherForecastDlg::OnStnClickedStaticWeather3()
+{
+	// TODO: 在此添加控件通知处理程序代码
+}
+
+
+void CWeatherForecastDlg::OnStnClickedStaticWeather4()
+{
+	// TODO: 在此添加控件通知处理程序代码
 }
