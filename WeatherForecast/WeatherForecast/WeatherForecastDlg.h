@@ -26,6 +26,7 @@ public:
 // Implementation
 protected:
 	HICON m_hIcon;
+	CFont newFont; 
 
 	// Generated message map functions
 	virtual BOOL OnInitDialog();

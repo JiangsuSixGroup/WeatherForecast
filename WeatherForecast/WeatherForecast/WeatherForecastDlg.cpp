@@ -658,35 +658,82 @@ void CWeatherForecastDlg::queryshowFun( )
 
 	vector<vector<string> > date_weather;
 	date_weather = ReadXML(Response );
-	
-	//当前天气
+	newFont.CreatePointFont(85,L"微软雅黑");
+	CWnd* pWnd = GetDlgItem(IDC_STATIC1);
+	pWnd->SetFont(&newFont);
+	pWnd = GetDlgItem(IDC_STATIC2);pWnd->SetFont(&newFont); 
+	pWnd = GetDlgItem(IDC_STATIC3);pWnd->SetFont(&newFont); 
+	pWnd = GetDlgItem(IDC_STATIC4);pWnd->SetFont(&newFont);
+	pWnd = GetDlgItem(IDC_STATIC5);pWnd->SetFont(&newFont);
+
+	pWnd = GetDlgItem(IDC_BUTTON_QUERY);pWnd->SetFont(&newFont);
+	pWnd = GetDlgItem(IDCANCEL);pWnd->SetFont(&newFont);
+	pWnd = GetDlgItem(IDC_COMBO_PROVINCE);pWnd->SetFont(&newFont);
+	pWnd = GetDlgItem(IDC_COMBO_CITY);pWnd->SetFont(&newFont);
+
 	SetDlgItemText(IDC_STATIC_NOWTEMP,CString( nowTemp.c_str()));
-	//SetFont(&font);
-
+	pWnd = GetDlgItem(IDC_STATIC_NOWTEMP);
+	pWnd->SetFont(&newFont);
 	SetDlgItemText(IDC_STATIC_CURRENT_DATE,CString((date_weather[0][0]).c_str()));
+	pWnd = GetDlgItem(IDC_STATIC_CURRENT_DATE);
+	pWnd->SetFont(&newFont);
 	SetDlgItemText(IDC_STATIC_CURRENT_WEATHERTYPE,CString((date_weather[0][1]).c_str()));
+	pWnd = GetDlgItem(IDC_STATIC_CURRENT_WEATHERTYPE);
+	pWnd->SetFont(&newFont);
 	SetDlgItemText(IDC_STATIC_CURRENT_HIGHTEMP,CString((date_weather[0][2]).c_str()));
+	pWnd = GetDlgItem(IDC_STATIC_CURRENT_HIGHTEMP);
+	pWnd->SetFont(&newFont);
 	SetDlgItemText(IDC_STATIC_CURRENT_LOWTEMP,CString((date_weather[0][3]).c_str()));
-
+	pWnd = GetDlgItem(IDC_STATIC_CURRENT_LOWTEMP);
+	pWnd->SetFont(&newFont);
 	SetDlgItemText(IDC_STATIC_DATE1,CString((date_weather[1][0]).c_str()));
+	pWnd = GetDlgItem(IDC_STATIC_DATE1);
+	pWnd->SetFont(&newFont);
 	SetDlgItemText(IDC_STATIC_WEATHERTYPE1,CString((date_weather[1][1]).c_str()));
+	pWnd = GetDlgItem(IDC_STATIC_WEATHERTYPE1);
+	pWnd->SetFont(&newFont);
 	SetDlgItemText(IDC_STATIC_HIGHTEMP1,CString((date_weather[1][2]).c_str()));
+	pWnd = GetDlgItem(IDC_STATIC_HIGHTEMP1);
+	pWnd->SetFont(&newFont);
 	SetDlgItemText(IDC_STATIC_LOWTEMP1,CString((date_weather[1][3]).c_str()));
-
+	pWnd = GetDlgItem(IDC_STATIC_LOWTEMP1);
+	pWnd->SetFont(&newFont);
 	SetDlgItemText(IDC_STATIC_DATE2,CString((date_weather[2][0]).c_str()));
+	pWnd = GetDlgItem(IDC_STATIC_DATE2);
+	pWnd->SetFont(&newFont);
 	SetDlgItemText(IDC_STATIC_WEATHERTYPE2,CString((date_weather[2][1]).c_str()));
+	pWnd = GetDlgItem(IDC_STATIC_WEATHERTYPE2);
+	pWnd->SetFont(&newFont);
 	SetDlgItemText(IDC_STATIC_HIGHTEMP2,CString((date_weather[2][2]).c_str()));
+	pWnd = GetDlgItem(IDC_STATIC_HIGHTEMP2);
+	pWnd->SetFont(&newFont);
 	SetDlgItemText(IDC_STATIC_LOWTEMP2,CString((date_weather[2][3]).c_str()));
-
+	pWnd = GetDlgItem(IDC_STATIC_LOWTEMP2);
+	pWnd->SetFont(&newFont);
 	SetDlgItemText(IDC_STATIC_DATE3,CString((date_weather[3][0]).c_str()));
+	pWnd = GetDlgItem(IDC_STATIC_DATE3);
+	pWnd->SetFont(&newFont);
 	SetDlgItemText(IDC_STATIC_WEATHERTYPE3,CString((date_weather[3][1]).c_str()));
+	pWnd = GetDlgItem(IDC_STATIC_WEATHERTYPE3);
+	pWnd->SetFont(&newFont);
 	SetDlgItemText(IDC_STATIC_HIGHTEMP3,CString((date_weather[3][2]).c_str()));
+	pWnd = GetDlgItem(IDC_STATIC_HIGHTEMP3);
+	pWnd->SetFont(&newFont);
 	SetDlgItemText(IDC_STATIC_LOWTEMP3,CString((date_weather[3][3]).c_str()));
-
+	pWnd = GetDlgItem(IDC_STATIC_LOWTEMP3);
+	pWnd->SetFont(&newFont);
 	SetDlgItemText(IDC_STATIC_DATE4,CString((date_weather[4][0]).c_str()));
+	pWnd = GetDlgItem(IDC_STATIC_DATE4);
+	pWnd->SetFont(&newFont);
 	SetDlgItemText(IDC_STATIC_WEATHERTYPE4,CString((date_weather[4][1]).c_str()));
+	pWnd = GetDlgItem(IDC_STATIC_WEATHERTYPE4);
+	pWnd->SetFont(&newFont);
 	SetDlgItemText(IDC_STATIC_HIGHTEMP4,CString((date_weather[4][2]).c_str()));
+	pWnd = GetDlgItem(IDC_STATIC_HIGHTEMP4);
+	pWnd->SetFont(&newFont);
 	SetDlgItemText(IDC_STATIC_LOWTEMP4,CString((date_weather[4][3]).c_str()));
+	pWnd = GetDlgItem(IDC_STATIC_LOWTEMP4);
+	pWnd->SetFont(&newFont);
 
 	//画天气图
 	string str_srcImageFolderPath = ".\\pic\\";
