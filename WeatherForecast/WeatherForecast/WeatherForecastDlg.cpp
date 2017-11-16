@@ -98,6 +98,7 @@ BEGIN_MESSAGE_MAP(CWeatherForecastDlg, CDialogEx)
 	ON_STN_CLICKED(IDC_STATIC_CURRENT_WEATHER, &CWeatherForecastDlg::OnStnClickedStaticCurrentWeather)
 	ON_STN_CLICKED(IDC_STATIC_WEATHER3, &CWeatherForecastDlg::OnStnClickedStaticWeather3)
 	ON_STN_CLICKED(IDC_STATIC_WEATHER4, &CWeatherForecastDlg::OnStnClickedStaticWeather4)
+//	ON_WM_CTLCOLOR()
 END_MESSAGE_MAP()
 
 //×Ö·û´®·Ö¸îº¯Êý
@@ -183,7 +184,7 @@ BOOL CWeatherForecastDlg::OnInitDialog()
 	//  when the application's main window is not a dialog
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
-
+	font.CreatePointFont(300,L"Î¢ÈíÑÅºÚ");
 	// TODO: Add extra initialization here
 	//¶ÁÈ¡ÅäÖÃÎÄ¼þ
 	//string ProvinceConfigFilePath = "D:\\Microsoft Visual Studio 2010\\Project\\WeatherForecast\\Debug\\province.ini";
@@ -330,13 +331,19 @@ void CWeatherForecastDlg::OnPaint()
 		dc.DrawIcon(x, y, m_hIcon);
 		if (flag ==1)
 		{
-			queryshowFun( );
 			flag =0;
 		}
 
 	}
 	else
 	{
+		//ÐÞ¸Ä´°Ìå±³¾°ÑÕÉ«
+		CRect rect;
+		CPaintDC dc(this);
+		GetClientRect(rect);
+
+		//ÉèÖÃÎª°×É«±³¾°
+		dc.FillSolidRect(rect,RGB(255,255,255)); 
 		CDialogEx::OnPaint();
 	}
 
@@ -775,19 +782,19 @@ void CWeatherForecastDlg::queryshowFun( )
 	SetDlgItemText(IDC_STATIC_ZHISHU_NAME1,CString(  zhishuInfo[1][0].c_str()));
 	SetDlgItemText(IDC_STATIC_ZHISHU_NAME2,CString( zhishuInfo[2][0].c_str()));
 	SetDlgItemText(IDC_STATIC_ZHISHU_NAME3,CString(  zhishuInfo[3][0].c_str()));
-	SetDlgItemText(IDC_STATIC_ZHISHU_NAME4,CString(  zhishuInfo[4][1].c_str()));
-	SetDlgItemText(IDC_STATIC_ZHISHU_NAME5,CString(  zhishuInfo[5][1].c_str()));
+	SetDlgItemText(IDC_STATIC_ZHISHU_NAME4,CString(  zhishuInfo[4][0].c_str()));
+	SetDlgItemText(IDC_STATIC_ZHISHU_NAME5,CString(  zhishuInfo[5][0].c_str()));
 	SetDlgItemText(IDC_STATIC_ZHISHU_NAME6,CString( zhishuInfo[6][0].c_str()));
 	SetDlgItemText(IDC_STATIC_ZHISHU_NAME7,CString(  zhishuInfo[7][0].c_str()));
 
 	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE0,CString(  zhishuInfo[0][1].c_str()));
 	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE1,CString(  zhishuInfo[1][1].c_str()));
-	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE2,CString( zhishuInfo[2][0].c_str()));
-	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE3,CString(  zhishuInfo[3][0].c_str()));
+	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE2,CString( zhishuInfo[2][1].c_str()));
+	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE3,CString(  zhishuInfo[3][1].c_str()));
 	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE4,CString(  zhishuInfo[4][1].c_str()));
 	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE5,CString(  zhishuInfo[5][1].c_str()));
-	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE6,CString( zhishuInfo[6][0].c_str()));
-	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE7,CString(  zhishuInfo[7][0].c_str()));
+	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE6,CString( zhishuInfo[6][1].c_str()));
+	SetDlgItemText(IDC_STATIC_ZHISHU_VALUE7,CString(  zhishuInfo[7][1].c_str()));
 
 
 
@@ -803,12 +810,11 @@ void CWeatherForecastDlg::queryshowFun( )
 
 
 	//µ±Ç°ÌìÆø
-	font.CreatePointFont(300,L"Î¢ÈíÑÅºÚ");
 	CWnd* pWnd = GetDlgItem(IDC_STATIC_NOWTEMP);
 	pWnd->SetFont(&font);
+	
 
 	SetDlgItemText(IDC_STATIC_NOWTEMP,CString( nowTemp.c_str()));
-	//SetFont(&font);
 
 	SetDlgItemText(IDC_STATIC_CURRENT_DATE,CString((date_weather[0][0]).c_str()));
 	SetDlgItemText(IDC_STATIC_CURRENT_WEATHERTYPE,CString((date_weather[0][1]).c_str()));

@@ -51,7 +51,7 @@ public:
 	int getCityNum;
 	string nowTemp;
 	void queryshowFun();
-	CFont font;
+	CFont  font;
 	
 	afx_msg void OnCbnSelchangeComboCity();
 	afx_msg void OnEnChangeEditQueryCity();
