@@ -93,6 +93,7 @@ BEGIN_MESSAGE_MAP(CWeatherForecastDlg, CDialogEx)
 	ON_CBN_SELCHANGE(IDC_COMBO_PROVINCE, &CWeatherForecastDlg::OnCbnSelchangeComboProvince)
 	ON_CBN_SELCHANGE(IDC_COMBO_CITY, &CWeatherForecastDlg::OnCbnSelchangeComboCity)
 	ON_BN_CLICKED(IDCANCEL, &CWeatherForecastDlg::OnBnClickedCancel)
+	ON_WM_CTLCOLOR()
 END_MESSAGE_MAP()
 
 //字符串分割函数
@@ -174,24 +175,18 @@ BOOL CWeatherForecastDlg::OnInitDialog()
 		}
 	}
 
-	// Set the icon for this dialog.  The framework does this automatically
-	//  when the application's main window is not a dialog
+
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 	font.CreatePointFont(300,L"微软雅黑");
-	// TODO: Add extra initialization here
-	//读取配置文件
-	//string ProvinceConfigFilePath = "D:\\Microsoft Visual Studio 2010\\Project\\WeatherForecast\\Debug\\province.ini";
+
 	string ProvinceConfigFilePath = "province.ini";
 	ifstream infile(ProvinceConfigFilePath.c_str());
-	//if (!infile) {
-	//	return "无法找到模板："+filePath;
-	//}
+
 	string line, province, id;
 	string pattern="\t";
 	std::vector<std::string> result;
-	//vector<vector<string >>m_VectorProvince;
-	//map<string , string> vMapProvince;
+
 	while (getline(infile, line)) 
 	{
 		if (line.substr(0,1)=="#" || line=="")
@@ -209,7 +204,6 @@ BOOL CWeatherForecastDlg::OnInitDialog()
 			vTmp.push_back(id);
 			vTmp.push_back(province);
 			m_VectorProvince.push_back(vTmp);
-			//vMapProvince.insert(map<string, string> :: value_type(province, id));
 		}
 		else
 		{
@@ -223,15 +217,10 @@ BOOL CWeatherForecastDlg::OnInitDialog()
 		m_cbProvince.InsertString(-1,result );	
 	}
 	//读取city配置文件
-	//string CityConfigFilePath = "D:\\Microsoft Visual Studio 2010\\Project\\WeatherForecast\\Debug\\city.ini";
 	string CityConfigFilePath = "city.ini";
 	ifstream infile1(CityConfigFilePath.c_str());
-	//if (!infile) {
-	//	return "无法找到模板："+filePath;
-	//}
 	string city, cityid, provinceid;
-	//vector<vector<string >>m_VectorProvince;
-	//map<string , string> vMapProvince;
+
 	while (getline(infile1, line)) 
 	{
 		if (line.substr(0,1)=="#" || line=="")
@@ -264,7 +253,7 @@ BOOL CWeatherForecastDlg::OnInitDialog()
 	nCitySelected = 0;
 
 
-	getCityNum= 1340;
+	getCityNum= 173;//1340;
 	m_cbProvince.SetCurSel(nProvinceSelected);
 	for (int i =0 ; i<m_VectorCity.size(); i++)
 	{	
@@ -294,13 +283,6 @@ void CWeatherForecastDlg::OnSysCommand(UINT nID, LPARAM lParam)
 		CDialogEx::OnSysCommand(nID, lParam);
 	}
 }
-
-// If you add a minimize button to your dialog, you will need the code below
-//  to draw the icon.  For MFC applications using the document/view model,
-//  this is automatically done for you by the framework.
-
-
-
 
 
 void CWeatherForecastDlg::OnPaint()
@@ -662,8 +644,6 @@ BOOL CWeatherForecastDlg::ShowJpgGif(CDC* pDC,CString strPath, int x, int y)
       CreateStreamOnHGlobal(hGlobal, TRUE, &pStm);  
  
     // 从流中加载图片
-    // 显示JPEG和GIF格式的图片，GIF只能显示一帧，还不能显示动画，
-    // 要显示动画GIF请使用ACTIVE控件。
     IPicture *pPic; 
     if(OleLoadPicture(pStm,(LONG)fstatus.m_size,TRUE,IID_IPicture,(LPVOID*)&pPic)!=S_OK) 
     { 
@@ -671,7 +651,7 @@ BOOL CWeatherForecastDlg::ShowJpgGif(CDC* pDC,CString strPath, int x, int y)
         return FALSE;
     }
 
-    //获取图像宽和高,注意这里的宽和高不是图像的分辨率
+    //获取图像宽和高
     OLE_XSIZE_HIMETRIC hmWidth;  
     OLE_YSIZE_HIMETRIC hmHeight;  
     pPic->get_Width(&hmWidth);  
@@ -697,9 +677,6 @@ BOOL CWeatherForecastDlg::ShowJpgGif(CDC* pDC,CString strPath, int x, int y)
 
 void CWeatherForecastDlg::OnCbnSelchangeComboProvince()
 {
-	// TODO: Add your control notification handler code here
-
-	//nSelected=((CComboBox*)GetDlgItem(IDC_COMBO_PROVINCE))->GetCurSel();
 	nProvinceSelected=m_cbProvince.GetCurSel();
 	
 	m_cbCity.ResetContent();
@@ -720,7 +697,6 @@ void CWeatherForecastDlg::OnCbnSelchangeComboProvince()
 
 void CWeatherForecastDlg::OnCbnSelchangeComboCity()
 {
-	// TODO: Add your control notification handler code here
 
 	nCitySelected=m_cbCity.GetCurSel();
 	//获取用户选择城市代码
@@ -745,7 +721,6 @@ void CWeatherForecastDlg::OnCbnSelchangeComboCity()
 
 void CWeatherForecastDlg::OnBnClickedCancel()
 {
-	// TODO: Add your control notification handler code here
 	CDialogEx::OnCancel();
 }
 
@@ -753,7 +728,6 @@ void CWeatherForecastDlg::OnBnClickedCancel()
 
 void CWeatherForecastDlg::queryshowFun( )
 {
-	// TODO: Add your control notification handler code here
 
 	//1、首先通过HTTP获取最新的天气预报信息 2、保存成xml格式 3、读取xml  4、展示xml
 	 //获得城市名称
@@ -809,10 +783,6 @@ void CWeatherForecastDlg::queryshowFun( )
 	
 
 	SetDlgItemText(IDC_STATIC_NOWTEMP,CString( nowTemp.c_str()));
-<<<<<<< HEAD
-=======
-	//SetFont(&font);
->>>>>>> 8980be50556c87e04ef7099a2ebf4a004b41b902
 
 	SetDlgItemText(IDC_STATIC_CURRENT_DATE,CString((date_weather[0][0]).c_str()));
 	SetDlgItemText(IDC_STATIC_CURRENT_WEATHERTYPE,CString((date_weather[0][1]).c_str()));
@@ -882,4 +852,22 @@ void CWeatherForecastDlg::queryshowFun( )
 	pDC = GetDlgItem( IDC_STATIC_WEATHER4 )->GetDC();//根据ID获得窗口指针再获取与该窗口关联的上下文指针
 	ShowJpgGif(pDC,cstr4,0,0);
 	ReleaseDC( pDC );
+}
+
+
+HBRUSH CWeatherForecastDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
+
+	if (pWnd-> GetDlgCtrlID()==IDC_STATIC||nCtlColor==CTLCOLOR_STATIC||nCtlColor==CTLCOLOR_BTN)
+	{
+		//pDC-> SetTextColor(RGB(255,0,0));   //设置字体颜色
+		pDC-> SetBkMode(TRANSPARENT); //设置字体背景为透明
+		// TODO: Return a different brush if the default is not desired
+		return (HBRUSH)::GetStockObject(WHITE_BRUSH);   // 设置背景色
+	}
+	else
+	{
+		return hbr;
+	}
 }

@@ -56,4 +56,5 @@ public:
 	afx_msg void OnCbnSelchangeComboCity();
 	afx_msg void OnEnChangeEditQueryCity();
 	afx_msg void OnBnClickedCancel();
+	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 };
