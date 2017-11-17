@@ -93,12 +93,6 @@ BEGIN_MESSAGE_MAP(CWeatherForecastDlg, CDialogEx)
 	ON_CBN_SELCHANGE(IDC_COMBO_PROVINCE, &CWeatherForecastDlg::OnCbnSelchangeComboProvince)
 	ON_CBN_SELCHANGE(IDC_COMBO_CITY, &CWeatherForecastDlg::OnCbnSelchangeComboCity)
 	ON_BN_CLICKED(IDCANCEL, &CWeatherForecastDlg::OnBnClickedCancel)
-	ON_STN_CLICKED(IDC_STATIC_WEATHER1, &CWeatherForecastDlg::OnStnClickedStaticWeather1)
-	ON_STN_CLICKED(IDC_STATIC_WEATHER2, &CWeatherForecastDlg::OnStnClickedStaticWeather2)
-	ON_STN_CLICKED(IDC_STATIC_CURRENT_WEATHER, &CWeatherForecastDlg::OnStnClickedStaticCurrentWeather)
-	ON_STN_CLICKED(IDC_STATIC_WEATHER3, &CWeatherForecastDlg::OnStnClickedStaticWeather3)
-	ON_STN_CLICKED(IDC_STATIC_WEATHER4, &CWeatherForecastDlg::OnStnClickedStaticWeather4)
-//	ON_WM_CTLCOLOR()
 END_MESSAGE_MAP()
 
 //字符串分割函数
@@ -884,33 +878,4 @@ void CWeatherForecastDlg::queryshowFun( )
 	pDC = GetDlgItem( IDC_STATIC_WEATHER4 )->GetDC();//根据ID获得窗口指针再获取与该窗口关联的上下文指针
 	ShowJpgGif(pDC,cstr4,0,0);
 	ReleaseDC( pDC );
-}
-
-void CWeatherForecastDlg::OnStnClickedStaticWeather1()
-{
-	// TODO: 在此添加控件通知处理程序代码
-}
-
-
-void CWeatherForecastDlg::OnStnClickedStaticWeather2()
-{
-	// TODO: 在此添加控件通知处理程序代码
-}
-
-
-void CWeatherForecastDlg::OnStnClickedStaticCurrentWeather()
-{
-	// TODO: 在此添加控件通知处理程序代码
-}
-
-
-void CWeatherForecastDlg::OnStnClickedStaticWeather3()
-{
-	// TODO: 在此添加控件通知处理程序代码
-}
-
-
-void CWeatherForecastDlg::OnStnClickedStaticWeather4()
-{
-	// TODO: 在此添加控件通知处理程序代码
 }
