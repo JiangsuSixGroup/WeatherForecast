@@ -178,7 +178,7 @@ BOOL CWeatherForecastDlg::OnInitDialog()
 
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
-	font.CreatePointFont(300,L"Î¢ÈíÑÅºÚ");
+	font.CreatePointFont(400,L"Î¢ÈíÑÅºÚ");
 
 	string ProvinceConfigFilePath = "province.ini";
 	ifstream infile(ProvinceConfigFilePath.c_str());
@@ -691,7 +691,24 @@ void CWeatherForecastDlg::OnCbnSelchangeComboProvince()
 			m_cbCity.InsertString(-1,result );	
 		}
 	}
-	
+
+
+	m_cbCity.SetCurSel(0);
+	CString str; 
+	m_cbCity.GetWindowText(str);
+
+	string provinceCode = m_VectorProvince[nProvinceSelected][0];
+	int provinceStartNum = -1;
+	for (int i =0 ; i<m_VectorCity.size(); i++)
+	{	
+		if (m_VectorCity[i][2] == provinceCode )
+		{
+			provinceStartNum = i;
+			break;
+		}
+	}
+	getCityNum = provinceStartNum +nCitySelected;
+
 }
 
 
