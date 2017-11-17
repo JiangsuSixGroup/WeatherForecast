@@ -809,6 +809,10 @@ void CWeatherForecastDlg::queryshowFun( )
 	
 
 	SetDlgItemText(IDC_STATIC_NOWTEMP,CString( nowTemp.c_str()));
+<<<<<<< HEAD
+=======
+	//SetFont(&font);
+>>>>>>> 8980be50556c87e04ef7099a2ebf4a004b41b902
 
 	SetDlgItemText(IDC_STATIC_CURRENT_DATE,CString((date_weather[0][0]).c_str()));
 	SetDlgItemText(IDC_STATIC_CURRENT_WEATHERTYPE,CString((date_weather[0][1]).c_str()));
